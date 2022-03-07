@@ -33,16 +33,50 @@ export default class App extends React.Component {
       ],
     };
   }
+  handleAdd = (task) => {
+    const newTodo = { id: getIndex(), task: task, completed: false };
+    this.setState({
+      ...this.state,
+      todos: [...this.state.todos, newTodo],
+    });
+  };
 
+  handleHide = () => {
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.filter((todo) => {
+        return todo.completed === false;
+      }),
+    });
+  };
+
+  handleToggle = (clickedId) => {
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.map((todo) => {
+        if (todo.id === clickedId) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      }),
+    });
+  };
+
+  // handleChange = (evt) => {
+  //   this.setState({...this.state, input: evt.target.value})
+  // }
   render() {
     const { todos } = this.state;
 
     return (
       <div>
-        <TodoList todos={todos} />
+        <TodoList todos={todos} handleToggle={this.handleToggle} />
 
-        <Form />
-        <button>Hide Completed</button>
+        <Form handleAdd={this.handleAdd} />
+        <button onClick={this.handleHide}>Hide Completed</button>
       </div>
     );
   }

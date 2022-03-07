@@ -1,6 +1,9 @@
 import React from "react";
 
 export default class Todo extends React.Component {
+  handleClick = () => {
+    this.props.handleToggle(this.props.todo.id);
+  };
   render() {
     return (
       <li key={this.props.todo.id}>
